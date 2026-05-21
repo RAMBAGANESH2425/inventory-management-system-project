@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import User
+from django.conf import settings
 from tasks.models import Task
 
 
@@ -16,13 +16,13 @@ class Invitation(models.Model):
     )
 
     sender = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='sent_invitations'
     )
 
     receiver = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='received_invitations'
     )

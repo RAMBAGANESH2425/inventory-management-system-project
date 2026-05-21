@@ -1,43 +1,40 @@
-import { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import Tasks from "./pages/Tasks";
+
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [show, setShow] = useState(true);
-
-  // Mounting
-  useEffect(() => {
-    console.log("Component Mounted");
-
-    return () => {
-      console.log("Component Unmounted");
-    };
-  }, []);
-
-  // Updating
-  useEffect(() => {
-    console.log("Component Updated");
-  }, [count]);
-
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>React Lifecycle Methods Practice</h1>
+    <BrowserRouter>
+      <Routes>
 
-      {show && (
-        <div>
-          <h2>Counter: {count}</h2>
+        {/* PUBLIC ROUTE */}
+        <Route path="/login" element={<Login />} />
 
-          <button onClick={() => setCount(count + 1)}>
-            Increase Count
-          </button>
-        </div>
-      )}
+        {/* PROTECTED ROUTES */}
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
 
-      <br /><br />
+        <Route
+          path="/tasks"
+          element={
+            <PrivateRoute>
+              <Tasks />
+            </PrivateRoute>
+          }
+        />
 
-      <button onClick={() => setShow(!show)}>
-        {show ? "Unmount Component" : "Mount Component"}
-      </button>
-    </div>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
